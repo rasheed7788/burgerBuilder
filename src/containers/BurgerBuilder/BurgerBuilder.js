@@ -7,6 +7,9 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios.js';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
+import  withRouter  from '../../withRouter';
+import { Navigate } from 'react-router-dom';
+
 
 const INGREDIENT_PRICES  = {
         salad : 0.5,
@@ -27,6 +30,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
        axios.get('https://react-my-burger-app-a38bc-default-rtdb.firebaseio.com/ingredients.json')
         .then( response => {
             this.setState({ingredients : response.data})
@@ -91,29 +95,32 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        //alert('You Continue');
-        this.setState({loading: true});
-        const order = {
-            ingredients : this.state.ingredients,
-            price: this.state.totalPrice,
-            customer : {
-                name : 'Rasheed',
-                address : {
-                    street : 'Test Street',
-                    zipcode : '20002',
-                    country : 'India'
-                },
-                email : 'test@gmail.com'
-            },
-            deliveryMethod : 'fastest' 
-        }
-        axios.post('/orders.json', order)
-            .then(response  => {
-                this.setState({loading: false, purchasing : false})
-            })
-            .catch(error => {
-                this.setState({loading: false, purchasing : false});
-            });
+        // //alert('You Continue');
+        // this.setState({loading: true});
+        // const order = {
+        //     ingredients : this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer : {
+        //         name : 'Rasheed',
+        //         address : {
+        //             street : 'Test Street',
+        //             zipcode : '20002',
+        //             country : 'India'
+        //         },
+        //         email : 'test@gmail.com'
+        //     },
+        //     deliveryMethod : 'fastest' 
+        // }
+        // axios.post('/orders.json', order)
+        //     .then(response  => {
+        //         this.setState({loading: false, purchasing : false})
+        //     })
+        //     .catch(error => {
+        //         this.setState({loading: false, purchasing : false});
+        //     });
+    //    this.props.history.push("/checkout", null);
+        // this.props.navigate('/checkout')
+        <Navigate replace to='/checkout' />
     }
     
     render () {
